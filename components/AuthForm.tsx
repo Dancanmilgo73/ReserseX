@@ -53,6 +53,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
         }
         if (type === 'sign-up') {
             const newUser = await signUp(values);
+            setUser(newUser);
         }
         
       } catch (error) {
