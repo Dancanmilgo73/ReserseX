@@ -9,11 +9,16 @@ export const signIn = async ({ email, password}: signInProps) => {
   try {
   const { account } = await createAdminClient();
   const session = await account.createEmailPasswordSession(email, password);
-
+  cookies().set("appwrite-session", session.secret, {
+    path: "/",
+    httpOnly: true,
+    sameSite: "strict",
+    secure: true,
+  }); 
     return parseStringify(session);       
         
     } catch (error) {
-        
+    return null; 
     }
 }
 export const signUp = async (data: SignUpParams) => {
@@ -32,14 +37,14 @@ export const signUp = async (data: SignUpParams) => {
   });        
     return parseStringify(newUserAccount);
     } catch (error) {
-        
+      return null;
     }
 }
 
 export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
-    const user = await account.get();
+    const user = await account.get(); 
     return parseStringify(user);
   } catch (error) {
     return null;

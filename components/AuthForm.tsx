@@ -49,6 +49,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
                 email: values.email,
                 password: values.password
             }); 
+            
             if (res) router.push("/");
         }
         if (type === 'sign-up') {
@@ -62,7 +63,6 @@ const AuthForm = ({ type }: AuthFormProps) => {
           
         setIsLoading(false);
       }
-      console.log(values)
   }    
 
   return (
