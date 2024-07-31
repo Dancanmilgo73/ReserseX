@@ -12,7 +12,7 @@ const ibmPlexSerif = IBM_Plex_Serif({
 export const metadata: Metadata = {
   title: "ReserveX",
   description: "ReserveX is a modern banking platform",
-  icons: '/icons/logo.svg'
+  icons: '/icons/logo.ico'
 };
 
 export default function RootLayout({

@@ -22,6 +22,7 @@ import { authFormSchema } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { signIn, signUp } from '@/lib/actions/user.actions'
+import PlaidLink from './PlaidLink'
 
 
 const AuthForm = ({ type }: AuthFormProps) => {
@@ -41,7 +42,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
   // 2. Define a submit handler.
   const onSubmit = async(values: z.infer<typeof formShema>) => {
     // Do something with the form values.
-      // ✅ This will be type-safe and validated.
+      // This will be type-safe and validated.
       setIsLoading(true);
       try {
         if (type === 'sign-in') {
@@ -53,7 +54,20 @@ const AuthForm = ({ type }: AuthFormProps) => {
             if (res) router.push("/");
         }
         if (type === 'sign-up') {
-            const newUser = await signUp(values);
+        const data = {
+            firstName: values.firstName!,
+            lastName: values.lastName!,
+            address1: values.address1!,
+            city: values.city!,
+            state: values.state!,
+            postalCode: values.postalCode!,
+            dateOfBirth: values.dateOfBirth!,
+            ssn: values.ssn!,
+            email: values.email,
+            password: values.password
+            };
+            
+            const newUser = await signUp(data);
             setUser(newUser);
         }
         
@@ -97,9 +111,9 @@ const AuthForm = ({ type }: AuthFormProps) => {
           </header>
           {user ? (
               <div className='flex flex-col gap-4'>
-                  {/* plaidlink */}
+                  <PlaidLink user={user} variant="primary" />
               </div>
-          ) : (
+         ) : ( 
                   <>
         <Form {...form}>
                           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -160,8 +174,8 @@ const AuthForm = ({ type }: AuthFormProps) => {
                                             control={form.control}
                                             />
                                         <CustomInput
-                                            name="nationalId"
-                                            label='National ID'
+                                            name="ssn"
+                                            label='SSN'
                                             placeholder='Example: 123456'
                                             type="text"
                                             control={form.control}
@@ -212,7 +226,7 @@ const AuthForm = ({ type }: AuthFormProps) => {
                           </Link>
                   </footer>
                   </>
-          )}
+         )} 
       </section>
   )
 }
